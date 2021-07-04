@@ -35,9 +35,7 @@ class Stack {
 
   pop() {
     if (this.isEmpty() === false) {
-      return this.stackControl.pop(
-        this.stackControl[this.stackControl.length - 1]
-      );
+      return this.stackControl.pop();
     } else {
       throw new Error('STACK_UNDERFLOW');
     }
