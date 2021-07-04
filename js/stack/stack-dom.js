@@ -1,3 +1,7 @@
+// ###################################################
+// ## Iteration 3 - Visualizing our data structures ##
+// ###################################################
+
 const stackList = document.getElementById('stack-list');
 const stackInput = document.getElementById('stack-input');
 const container = document.getElementById('container');
@@ -11,36 +15,57 @@ const takeStackBtn = document.getElementById('take-stack');
 const newStack = new Stack();
 
 const clearStackInput = () => {
-  // ... your code goes here
+  stackInput.value = '';
 };
 
 const renderListStack = () => {
-  // ... your code goes here
+  // clear all items from stack list
+  stackList.querySelectorAll('*').forEach((n) => n.remove());
+  // build up stack list items
+  for (let i = 0; i < newStack.MAX_SIZE; i++) {
+    stackDummyElement = document.createElement('li');
+    if (newStack.display()[i] === undefined) {
+      stackDummyElement.className = 'inactive';
+    } else {
+      stackDummyElement.className = 'active';
+      stackDummyElement.innerText = newStack.display()[i];
+    }
+    stackList.appendChild(stackDummyElement);
+  }
+  // remove underflow warning
+  warningBottomStack.style.display = 'none';
 };
 
 renderListStack();
 
 const generateWarningStack = (type) => {
   if (type === 'underflow') {
-    // ... your code goes here
+    warningBottomStack.innerText = type;
+    warningBottomStack.style.display = 'block';
   } else if (type === 'overflow') {
-    // ... your code goes here
+    warningTopStack.innerText = type;
+    warningTopStack.style.display = 'block';
   }
 };
 
 const addToStack = () => {
   try {
-    // ... your code goes here
+    newStack.push(stackInput.value);
+    clearStackInput();
+    renderListStack();
   } catch (error) {
-    // there was an overflow error, handle it
+    generateWarningStack('overflow');
   }
 };
 
 const removeFromStack = () => {
   try {
-    // ... your code goes here
+    newStack.pop();
+    renderListStack();
+    // remove underflow warning
+    warningTopStack.style.display = 'none';
   } catch (error) {
-    // there was an underflow error, handle it
+    generateWarningStack('underflow');
   }
 };
 

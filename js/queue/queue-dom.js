@@ -1,3 +1,7 @@
+// ###################################################
+// ## Iteration 3 - Visualizing our data structures ##
+// ###################################################
+
 const queueUL = document.querySelector('.list-queue');
 const queueInput = document.querySelector('.queue-input');
 const warningTopQueue = document.querySelector('#queue-container .warning-top');
@@ -10,36 +14,57 @@ const dequeue = document.querySelector('.btn-take-dequeue');
 const queue = new Queue();
 
 const clearQueueInput = () => {
-  // ... your code goes here
+  queueInput.value = '';
 };
 
 const generateListQueue = () => {
-  // ... your code goes here
+  // clear all items from queue list
+  queueUL.querySelectorAll('*').forEach((n) => n.remove());
+  // build up queue list items
+  for (let i = 0; i < queue.MAX_SIZE; i++) {
+    QueueDummyElement = document.createElement('li');
+    if (queue.display()[i] === undefined) {
+      QueueDummyElement.className = 'inactive';
+    } else {
+      QueueDummyElement.className = 'active';
+      QueueDummyElement.innerText = queue.display()[i];
+    }
+    queueUL.appendChild(QueueDummyElement);
+  }
+  // remove underflow warning
+  warningBottomQueue.style.display = 'none';
 };
 
 generateListQueue();
 
 const generateWarningQueue = (type) => {
   if (type === 'underflow') {
-    // ... your code goes here
+    warningBottomQueue.innerText = type;
+    warningBottomQueue.style.display = 'block';
   } else if (type === 'overflow') {
-    // ... your code goes here
+    warningTopQueue.innerText = type;
+    warningTopQueue.style.display = 'block';
   }
 };
 
 const addToQueue = () => {
   try {
-    // ... your code goes here
+    queue.enqueue(queueInput.value);
+    clearQueueInput();
+    generateListQueue();
   } catch (error) {
-    // there was an overflow error, handle it
+    generateWarningQueue('overflow');
   }
 };
 
 const removeFromQueue = () => {
   try {
-    // ... your code goes here
+    queue.dequeue();
+    generateListQueue();
+    // remove underflow warning
+    warningTopQueue.style.display = 'none';
   } catch (error) {
-    // there was an underflow error, handle it
+    generateWarningQueue('underflow');
   }
 };
 
